@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Catálogo SEISA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafaf9;--card:#fff;--ink:#1c1c1e;--mute:#8a8a8e;--line:#ececea;--accent:#111;--chip:#f0f0ee;--wa:#1faa59}
+@media (prefers-color-scheme:dark){:root{--bg:#121213;--card:#1b1b1d;--ink:#f2f2f3;--mute:#98989d;--line:#2a2a2d;--accent:#fff;--chip:#242427}}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar{max-width:1280px;margin:auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
+.brand{font-weight:700;letter-spacing:.28em;font-size:17px}
+.brand small{display:block;font-weight:400;letter-spacing:.12em;font-size:9px;color:var(--mute);text-transform:uppercase;margin-top:2px}
+.search{flex:1;max-width:420px;margin-left:auto;position:relative}
+.search input{width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:10px 16px 10px 40px;font:inherit;font-size:14px;outline:none;transition:border .2s}
+.search input:focus{border-color:var(--ink)}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--mute);fill:none;stroke-width:2}
+.hero{max-width:1280px;margin:auto;padding:56px 24px 28px}
+.hero h1{font-size:clamp(30px,5vw,52px);font-weight:600;letter-spacing:-.03em;line-height:1.05}
+.hero p{margin-top:12px;color:var(--mute);font-size:15px}
+.chips{max-width:1280px;margin:auto;padding:8px 24px 24px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;background:var(--chip);color:var(--ink);padding:9px 16px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;transition:.2s}
+.chip:hover{opacity:.7}
+.chip.on{background:var(--accent);color:var(--bg)}
+main{max-width:1280px;margin:auto;padding:0 24px 80px}
+.count{color:var(--mute);font-size:13px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;animation:in .5s both}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.08)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
+.ph{aspect-ratio:1/1;background:#fff;display:flex;align-items:center;justify-content:center;padding:14px}
+.ph img{max-width:100%;max-height:100%;object-fit:contain;transition:transform .4s}
+.card:hover .ph img{transform:scale(1.05)}
+.info{padding:14px 16px 18px;border-top:1px solid var(--line)}
+.code{font-size:11px;color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+.name{font-size:14px;font-weight:500;margin-top:5px;line-height:1.35;text-transform:capitalize}
+.more{font-size:12px;color:var(--mute);margin-top:6px}
+.empty{text-align:center;color:var(--mute);padding:80px 0}
+.btnmore{display:block;margin:36px auto 0;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:12px 28px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.sheet{background:var(--card);border-radius:24px;max-width:860px;width:100%;max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr 1fr;animation:in .3s both;position:relative}
+.sheet .ph{aspect-ratio:auto;min-height:340px;padding:28px}
+.det{padding:34px 30px;display:flex;flex-direction:column;gap:14px}
+.det h2{font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.25;text-transform:capitalize}
+.var{border-top:1px solid var(--line);padding-top:12px}
+.var b{font-weight:500;font-size:14px;text-transform:capitalize;display:block;margin-top:3px}
+.wa{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:#fff;text-decoration:none;padding:13px 20px;border-radius:999px;font-size:14px;font-weight:600}
+.x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:0;background:var(--chip);color:var(--ink);font-size:18px;cursor:pointer;z-index:2}
+footer{border-top:1px solid var(--line);padding:40px 24px;text-align:center;color:var(--mute);font-size:13px;line-height:1.9}
+footer a{color:inherit}
+@media(max-width:720px){.bar{padding:12px 16px}.hero{padding:34px 16px 18px}.chips,main{padding-left:16px;padding-right:16px}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.info{padding:11px 12px 14px}.name{font-size:13px}.sheet{grid-template-columns:1fr}.sheet .ph{min-height:240px}.det{padding:22px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="bar">
+<div class="brand" id="brand">SEISA<small id="lema"></small></div>
+<label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Buscar producto o código…" autocomplete="off"></label>
+</div></header>
+<section class="hero"><h1 id="titulo"></h1><p>Tecnología, audio, iluminación y más. Toque un producto para ver el detalle y consultarlo.</p></section>
+<nav class="chips" id="chips"></nav>
+<main><div class="count" id="count"></div><div class="grid" id="grid"></div><button class="btnmore" id="more">Ver más productos</button></main>
+<footer id="foot"></footer>
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<script src="productos.js"></script>
+<script>
+const $=s=>document.querySelector(s),STEP=48;
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const DATA=PRODUCTOS.map(([cat,img,vs])=>({cat,img,vs,t:norm(vs.map(v=>v.join(' ')).join(' ')+' '+cat)}));
+let cat='Todos',term='',shown=STEP,list=[];
+$('#brand').firstChild.textContent=CONFIG.nombre;$('#lema').textContent=CONFIG.lema;$('#titulo').textContent=CONFIG.titulo;
+document.title='Catálogo '+CONFIG.nombre;
+const cats=['Todos',...new Set(DATA.map(d=>d.cat))].sort((a,b)=>a==='Todos'?-1:b==='Todos'?1:a==='Otros'?1:b==='Otros'?-1:a.localeCompare(b));
+$('#chips').innerHTML=cats.map(c=>`<button class="chip${c===cat?' on':''}" data-c="${c}">${c}</button>`).join('');
+$('#chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;cat=b.dataset.c;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));shown=STEP;render()};
+$('#q').oninput=e=>{term=norm(e.target.value.trim());shown=STEP;render()};
+$('#more').onclick=()=>{shown+=STEP;render()};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function render(){
+ const words=term.split(/\s+/).filter(Boolean);
+ list=DATA.filter(d=>(cat==='Todos'||d.cat===cat)&&words.every(w=>d.t.includes(w)));
+ $('#count').textContent=list.length.toLocaleString('es')+' productos';
+ $('#grid').innerHTML=list.slice(0,shown).map((d,i)=>{const v=d.vs[0];return `<article class="card" data-i="${DATA.indexOf(d)}" style="animation-delay:${(i%STEP)*12}ms"><div class="ph"><img loading="lazy" src="${d.img}" alt="${esc(v[1]||v[0])}"></div><div class="info"><div class="code">${esc(v[0])}</div><div class="name">${esc(v[1].toLowerCase()||v[0])}</div>${d.vs.length>1?`<div class="more">+ ${d.vs.length-1} modelo${d.vs.length>2?'s':''} más</div>`:''}</div></article>`}).join('')||'<div class="empty">No encontramos productos con esa búsqueda.</div>';
+ $('#more').style.display=list.length>shown?'block':'none';
+}
+$('#grid').onclick=e=>{const c=e.target.closest('.card');if(c)openM(DATA[c.dataset.i])};
+function openM(d){
+ const first=d.vs[0],msg=encodeURIComponent('Hola, me interesa este producto: '+d.vs.map(v=>v[0]+(v[1]?' – '+v[1]:'')).join(' / '));
+ $('#sheet').innerHTML=`<button class="x" aria-label="Cerrar">×</button><div class="ph"><img src="${d.img}" alt=""></div><div class="det"><div class="code">${esc(d.cat)}</div><h2>${esc((first[1]||first[0]).toLowerCase())}</h2>${d.vs.map(v=>`<div class="var"><span class="code">${esc(v[0])}</span>${v[1]?`<b>${esc(v[1].toLowerCase())}</b>`:''}</div>`).join('')}<a class="wa" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${msg}">Consultar por WhatsApp</a></div>`;
+ $('#modal').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeM(){$('#modal').classList.remove('open');document.body.style.overflow=''}
+$('#modal').onclick=e=>{if(e.target.id==='modal'||e.target.closest('.x'))closeM()};
+addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+$('#foot').innerHTML=`<div>${CONFIG.telefonos.join(' · ')}</div><div><a href="mailto:${CONFIG.correo}">${CONFIG.correo}</a> · <a href="https://${CONFIG.web}">${CONFIG.web}</a></div><div>${CONFIG.direccion}</div>`;
+render();
+</script>
+</body>
+</html>
